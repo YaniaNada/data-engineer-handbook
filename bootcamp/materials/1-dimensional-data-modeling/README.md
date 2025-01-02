@@ -65,13 +65,7 @@ There are two methods to get Postgres running locally.
     ```
 
 - Start the Docker Compose container:
-    - If you're on Mac:
-        
-        ```bash
-        make up
-        ```
-        
-    - If you're on Windows:
+    - on Windows:
         
         ```bash
         docker compose up -d
@@ -111,36 +105,15 @@ There are two methods to get Postgres running locally.
     
 - If the test connection is successful, click "Finish" or "Save" to save the connection. You should now be able to use the database client to manage your PostgreSQL database locally.
 
-### :rotating_light: **Need help loading tables?** :rotating_light:
 
-> Refer to the instructions below to resolve the issue when the data dump fails to load tables, displaying the message `PostgreSQL Database directory appears to contain a database; Skipping initialization.`
 ## **🚨 Tables not loading!? 🚨**
 
-- If the tables don't come with the loaded data, follow these steps with manual local installation of Postgres:
+- When the tables didn't come with the loaded data, I followed these steps:
 
-1. Find where your `psql` client is installed (Something like `C:\\Program Files\\PostgreSQL\\13\\runpsql.bat`)
-2. Make sure you're in the root of the repo, and launch `psql` by running that `.bat` script
-3. Enter your credentials for Postgres (described in the connect to Postgres section)
-    - → If the above worked, you should now be inside a psql REPL (It looks like `postgres=#`)
-4. Run:
-    
-    ```bash
-    postgres=# \\i data.dump
-    ```
-    
-    - → This will run the file `data.dump` from inside your psql REPL.
-
-- If you did the setup using Option 2 which is Docker option, and the tables are not in the database, another solution is to: 
-
-1. Find the container id by running `docker ps` - under CONTAINER ID
+1. Find the container id by running `docker ps` - under CONTAINER ID in the terminal
 2. Go inside the container by executing `docker exec -it <container_name_or_id> bash`
 3. Run `pg_restore -U $POSTGRES_USER -d $POSTGRES_DB /docker-entrypoint-initdb.d/data.dump` 
+$POSTGRES_USER = postgres
+$POSTGRES_DB = postgres
 
 ---
-
-#### 💡 Additional Docker Make commands
-
-- To restart the Postgres instance, you can run **`make restart`**.
-- To see logs from the Postgres container, run **`make logs`**.
-- To inspect the Postgres container, run **`make inspect`**.
-- To find the port Postgres is running on, run **`make ip`**.
